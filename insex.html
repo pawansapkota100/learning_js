@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random User Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random User Data</h1>
+    <table id="userTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Location</th>
+                <th>Phone</th>
+                <th>Picture</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- User data will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Function to fetch and display user data
+        async function fetchUserData() {
+            const response = await fetch('https://randomuser.me/api/');
+            const data = await response.json();
+            const user = data.results[0];
+            
+            // Extract user details
+            const name = `${user.name.first} ${user.name.last}`;
+            const email = user.email;
+            const gender = user.gender;
+            const location = `${user.location.city}, ${user.location.country}`;
+            const phone = user.phone;
+            const picture = user.picture.thumbnail;
+
+            // Create a new table row
+            const row = `
+                <tr>
+                    <td>${name}</td>
+                    <td>${email}</td>
+                    <td>${gender}</td>
+                    <td>${location}</td>
+                    <td>${phone}</td>
+                    <td><img src="${picture}" alt="User Picture"></td>
+                </tr>
+            `;
+
+            // Insert the new row into the table body
+            document.querySelector('#userTable tbody').innerHTML = row;
+        }
+
+        // Fetch and display user data when the page loads
+        window.onload = fetchUserData;
+    </script>
+</body>
+</html>
